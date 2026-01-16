@@ -1,0 +1,34 @@
+name: Download YouTube Transcript
+
+on:
+  workflow_dispatch:
+    inputs:
+      youtube_url:
+        description: "YouTube video URL"
+        required: true
+        type: string
+
+jobs:
+  download-transcript:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install youtube-transcript-api
+
+      - name: Run transcript downloader
+        run: python download_transcript.py "${{ github.event.inputs.youtube_url }}"
+
+      - name: Upload transcript
+        uses: actions/upload-artifact@v4
+        with:
+          name: youtube-transcript
+          path: transcript.txt
