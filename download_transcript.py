@@ -1,9 +1,6 @@
 import sys
 from urllib.parse import urlparse, parse_qs
 
-import youtube_transcript_api
-print("Loaded module from:", youtube_transcript_api.__file__)
-
 from youtube_transcript_api import YouTubeTranscriptApi
 
 
