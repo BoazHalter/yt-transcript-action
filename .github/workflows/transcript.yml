@@ -22,7 +22,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install dependencies
-        run: pip install --upgrade --force-reinstall youtube-transcript-api
+        run: pip install --upgrade --force-reinstall youtube-transcript-api==0.6.2
 
       - name: Run transcript downloader
         run: python download_transcript.py "${{ github.event.inputs.youtube_url }}"
