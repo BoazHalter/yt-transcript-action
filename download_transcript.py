@@ -1,13 +1,13 @@
-import sys
 from youtube_transcript_api import YouTubeTranscriptApi
 from urllib.parse import urlparse, parse_qs
+import sys
 
 def extract_video_id(url):
-    query = urlparse(url)
-    if query.hostname == "youtu.be":
-        return query.path[1:]
-    if query.hostname in ("www.youtube.com", "youtube.com"):
-        return parse_qs(query.query).get("v", [None])[0]
+    parsed = urlparse(url)
+    if parsed.hostname == "youtu.be":
+        return parsed.path[1:]
+    if parsed.hostname in ("www.youtube.com", "youtube.com", "m.youtube.com"):
+        return parse_qs(parsed.query).get("v", [None])[0]
     return None
 
 if __name__ == "__main__":
@@ -15,7 +15,7 @@ if __name__ == "__main__":
     video_id = extract_video_id(url)
 
     if not video_id:
-        raise ValueError("Could not extract video ID from URL")
+        raise ValueError("Could not extract video ID")
 
     transcript = YouTubeTranscriptApi.get_transcript(video_id)
 
@@ -23,4 +23,4 @@ if __name__ == "__main__":
         for entry in transcript:
             f.write(entry["text"] + "\n")
 
-    print("Transcript saved to transcript.txt")
+    print("Transcript saved.")
